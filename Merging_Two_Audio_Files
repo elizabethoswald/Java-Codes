@@ -1,0 +1,68 @@
+import javax.sound.sampled.*;
+import java.io.*;
+public class Merging_Two_Audio_Files {
+	public static String audioFilePath1="F:/Learn/Java/Above_All_Powers.wav";
+	public static String audioFilePath2="F:/Learn/Java/O_Come_All_Ye_Faithful.wav";
+	public static String outputFilePath="F:/Learn/Java/Merging_Two_Audio.wav";
+	
+	public void appendAudioFiles() throws LineUnavailableException
+	{
+		try
+		{
+			AudioInputStream audioStream1=AudioSystem.getAudioInputStream(new File(audioFilePath1));
+			AudioFormat format1=audioStream1.getFormat();
+			AudioInputStream audioStream2=AudioSystem.getAudioInputStream(new File(audioFilePath2));
+			AudioFormat format2=audioStream1.getFormat();
+			
+			if(!format1.matches(format2))
+			{
+				System.out.println("Audio formats do not match");
+				return;
+			}
+			AudioInputStream appendedFiles=new AudioInputStream(new SequenceInputStream(audioStream1,audioStream2),
+					format1,
+					audioStream1.getFrameLength()+audioStream2.getFrameLength());
+			File outputFile=new File(outputFilePath);
+			AudioSystem.write(appendedFiles, AudioFileFormat.Type.WAVE, outputFile);
+			audioStream1.close();
+			audioStream2.close();
+			appendedFiles.close();
+			System.out.println("Audio Files Appended Successfully");
+		}
+		catch(UnsupportedAudioFileException | IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	public void playAppendedFiles() throws LineUnavailableException
+	{
+		try
+		{
+			AudioInputStream appendedNewStream=AudioSystem.getAudioInputStream(new File(outputFilePath));
+			DataLine.Info info = new DataLine.Info(SourceDataLine.class, appendedNewStream.getFormat());
+            SourceDataLine line = (SourceDataLine) AudioSystem.getLine(info);
+            line.open(appendedNewStream.getFormat());
+			line.start();
+			System.out.println("The new appended file is now playing...");
+			byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = appendedNewStream.read(buffer, 0, buffer.length)) != -1) {
+                line.write(buffer, 0, bytesRead);
+            }
+            line.drain();
+            line.close();
+            appendedNewStream.close();
+            System.out.println("Audio finished playing");
+		}
+		catch(UnsupportedAudioFileException | IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	public static void main(String[] args) throws LineUnavailableException
+	{
+		Merging_Two_Audio_Files merge=new Merging_Two_Audio_Files();
+		merge.appendAudioFiles();
+		merge.playAppendedFiles();
+	}
+}
