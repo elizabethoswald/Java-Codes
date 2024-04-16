@@ -1,0 +1,111 @@
+public class PrintPatterns {
+	public static void main(String[] args) {
+		PrintPatterns pp=new PrintPatterns();
+		pp.leftSidedTriangle();
+		pp.rightSidedTriangle();
+		pp.square();
+		pp.hillPattern();
+		pp.diamond();
+		pp.numberPatters();
+	}
+	public void leftSidedTriangle()
+	{
+		int rows=5;
+		for(int i=0;i<rows;i++) {
+			for(int j=0;j<=i;j++) {
+				System.out.print("* ");
+			}
+			System.out.println();
+		}
+	}
+	public void rightSidedTriangle()
+	{
+		int rows=5;
+		for(int i=0;i<rows;i++) {
+			for(int j=i;j<rows;j++) {
+				System.out.print("  ");
+			}
+			for(int j=1;j<=i;j++) {
+				System.out.print("* ");
+			}
+			System.out.println();
+		}
+	}
+	
+	public void square()
+	{
+		int rows=5;
+		for(int i=0;i<rows;i++)
+		{
+			for(int j=0;j<rows;j++) {
+			System.out.print("* ");
+			}
+			System.out.println();
+		}
+	}
+	public void hillPattern()
+	{
+		int rows=5;
+		for(int i=0;i<rows;i++) {
+			for(int j=i;j<rows;j++) {
+				System.out.print("  ");
+			}
+			for(int j=1;j<i;j++) {
+				System.out.print("* ");
+			}
+			for(int j=1;j<=i;j++) {
+				System.out.print("* ");
+			}
+			System.out.println();
+		}
+	}
+	public void diamond()
+	{
+		int n=5;
+		for(int i=1;i<n;i++) {
+			for(int j=i;j<=n;j++) {
+				System.out.print("  ");
+			}
+			for(int j=1;j<i;j++) {
+				System.out.print("* ");
+				
+			}
+			for(int j=1;j<=i;j++) {
+				System.out.print("* ");
+			}
+			System.out.println();
+		}
+		
+		for(int i=1;i<=n;i++) {
+			for(int j=1;j<=i;j++) {
+				System.out.print("  ");
+				
+			}
+			for(int j=i;j<n;j++) {
+				System.out.print("* ");
+			}
+			for(int j=i;j<=n;j++) {
+				System.out.print("* ");
+			}
+			System.out.println();
+		}
+	}
+	public void numberPatters()
+	{
+		int n=5;
+		for(int i=1;i<=n;i++) {
+			int p=1;
+			for(int j=i;j<=n;j++)
+			{
+				System.out.print("  ");
+			}
+			for(int j=1;j<i;j++) {
+				System.out.print(p+++" ");
+			}
+			for(int j=1;j<=i;j++) {
+				System.out.print(p--+" ");
+			}
+			System.out.println();
+		}
+	}
+}
